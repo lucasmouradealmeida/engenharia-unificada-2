@@ -1,37 +1,55 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-// Ultrasonico 1
+// Variáveis Globais
 
-const int triggerPin = 12; // Pino do trigger do sensor
-const int echoPin = 13;    // Pino do echo do sensor
+// Sensor ultrassonico 1
 
-// Ultrassonico 2
+const int triggerPin = 10;
+const int echoPin = 11;
 
-const int triggerPin2 = 11;
-const int echoPin2 = 10;
+// Sensor ultrassonico 2
 
-Servo myservo;  // Crie um objeto Servo
+const int triggerPin2 = 12;
+const int echoPin2 = 13;
 
-const int servoPin = 14;  // Pino ao qual o servo está conectado
+// Servo motor
+Servo myservo;
+const int servoPin = 3;
 
 
-// put function declarations here:
-int myFunction(int, int);
+// Declaração de funções
+int ultrasomDistance();
+int moveServo();
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
 
   Serial.begin(115200);
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  myservo.attach(servoPin);  // Vincule o objeto Servo ao pino do servo
+  pinMode(triggerPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
+
+  myservo.attach(servoPin);
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
+  int distance = ultrasomDistance();
+  Serial.print("Distância em cm: ");
+  Serial.print(distance);
+
+  if(distance < 10){
+    int move = moveServo();
+  }
+
+}
+
+// Função para obter as distâncias dos sensores ultrassonicos
+int ultrasomDistance(){
+
     long duration;
     float distance_cm;
 
@@ -48,13 +66,10 @@ void loop() {
     // Calcule a distância em centímetros e polegadas
     distance_cm = duration / 29.1 / 2.0;
 
-    // Exiba a distância no monitor serial
-    Serial.print("Distância em cm: ");
-    Serial.print(distance_cm);
+    return distance_cm;
+}
 
-    delay(1000); // Ajuste o atraso conforme necessário
-
-
+int moveServo(){
     // Gire o servo para a posição inicial (0 graus)
     myservo.write(0);
     delay(1000);  // Aguarde por 1 segundo
@@ -66,9 +81,6 @@ void loop() {
     // Gire o servo para a posição final (180 graus)
     myservo.write(180);
     delay(1000);  // Aguarde por 1 segundo
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    return 1;
 }
