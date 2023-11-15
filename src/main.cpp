@@ -43,6 +43,8 @@ void loop() {
 
   if(distance < 10){
     int move = moveServo();
+    Serial.print("Movendo servo: ");
+    Serial.print(move);
   }
 
 }
