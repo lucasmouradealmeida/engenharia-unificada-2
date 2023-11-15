@@ -1,8 +1,15 @@
 #include <Arduino.h>
 #include <Servo.h>
 
+// Ultrasonico 1
+
 const int triggerPin = 12; // Pino do trigger do sensor
 const int echoPin = 13;    // Pino do echo do sensor
+
+// Ultrassonico 2
+
+const int triggerPin2 = 11;
+const int echoPin2 = 10;
 
 Servo myservo;  // Crie um objeto Servo
 
@@ -16,17 +23,17 @@ void setup() {
   // put your setup code here, to run once:
   int result = myFunction(2, 3);
 
-    Serial.begin(115200);
-    pinMode(triggerPin, OUTPUT);
-    pinMode(echoPin, INPUT);
+  Serial.begin(115200);
+  pinMode(triggerPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 
-     myservo.attach(servoPin);  // Vincule o objeto Servo ao pino do servo
+  myservo.attach(servoPin);  // Vincule o objeto Servo ao pino do servo
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
     long duration;
-    float distance_cm, distance_inch;
+    float distance_cm;
 
     // Gere um pulso no pino do trigger
     digitalWrite(triggerPin, LOW);
